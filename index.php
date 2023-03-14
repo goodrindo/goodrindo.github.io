@@ -1,108 +1,47 @@
-<!DOCTYPE html>
-<html>
-<head>
-	<title>MEMBUAT GRAFIK DARI DATABASE MYSQL DENGAN PHP DAN CHART.JS - www.malasngoding.com</title>
-	<script type="text/javascript" src="chartjs/Chart.js"></script>
-</head>
-<body>
-	<style type="text/css">
-	body{
-		font-family: roboto;
-	}
+<!doctype html>
+<html lang="ar" dir="rtl">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
-	table{
-		margin: 0px auto;
-	}
-	</style>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.rtl.min.css" integrity="sha384-OXTEbYDqaX2ZY/BOaZV/yFGChYHtrXH2nyXJ372n2Y8abBhrqacCEe+3qhSHtLjy" crossorigin="anonymous">
 
 
-	<center>
-		<h2>MEMBUAT GRAFIK DARI DATABASE MYSQL DENGAN PHP DAN CHART.JS<br/>- www.malasngoding.com -</h2>
-	</center>
 
+    <title>IOT control Relay</title>
 
-	<?php 
-	include 'koneksi.php';
-	?>
+<script>
 
-	<div style="width: 800px;margin: 0px auto;">
-		<canvas id="myChart"></canvas>
-	</div>
+    function ubahstatus(value){
+        if(value==true) value= "ON"; else value= "OFF"
+        document.getElementById('status').innerHTML=value;
+    }
 
-	<br/>
-	<br/>
+    function ubahrange(val){
+       
+        document.getElementById('range').innerHTML=val;
+    }
+</script>
 
-	<table border="1">
-		<thead>
-			<tr>
-				<th>No</th>
-				<th>Nama Mahasiswa</th>
-				<th>NIM</th>
-				<th>Fakultas</th>
-			</tr>
-		</thead>
-		<tbody>
-			<?php 
-			$no = 1;
-			$data = mysqli_query($koneksi,"select * from mahasiswa");
-			while($d=mysqli_fetch_array($data)){
-				?>
-				<tr>
-					<td><?php echo $no++; ?></td>
-					<td><?php echo $d['nama']; ?></td>
-					<td><?php echo $d['nim']; ?></td>
-					<td><?php echo $d['fakultas']; ?></td>
-				</tr>
-				<?php 
-			}
-			?>
-		</tbody>
-	</table>
+  </head>
+  <body>
 
+    <div class="container">
+        <h2>Control Relay dan Servo dengan ESP32</h2>
 
-	<script>
-		var ctx = document.getElementById("myChart").getContext('2d');
-		var myChart = new Chart(ctx, {
-			type: 'pie',
-			data: {
-				labels: ["Teknik", "Fisip", "Ekonomi", "Pertanian"],
-				datasets: [{
-					label: 'data yang di buat goog',
-					data: [
-					<?php 
-					$jumlah_teknik = mysqli_query($koneksi,"select * from mahasiswa where jenis kelamim='Laki- Laki'");
-					echo mysqli_num_rows($jumlah_teknik);
-					?>, 
-					<?php 
-					$jumlah_ekonomi = mysqli_query($koneksi,"select * from mahasiswa where jenis kelamim='Perempuan'");
-					echo mysqli_num_rows($jumlah_ekonomi);
-					?>
-					],
-					backgroundColor: [
-					'rgba(255, 99, 132, 0.2)',
-					'rgba(54, 162, 235, 0.2)',
-					'rgba(255, 206, 86, 0.2)',
-					'rgba(75, 192, 192, 0.2)'
-					],
-					borderColor: [
-					'rgba(255,99,132,1)',
-					'rgba(54, 162, 235, 1)',
-					'rgba(255, 206, 86, 1)',
-					'rgba(75, 192, 192, 1)'
-					],
-					borderWidth: 1
-				}]
-			},
-			options: {
-				scales: {
-					yAxes: [{
-						ticks: {
-							beginAtZero:true
-						}
-					}]
-				}
-			}
-		});
-	</script>
-</body>
+        <div class="form-check form-switch">
+        <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault" onchange="ubahstatus(this.checked)">
+        <label class="form-check-label" for="flexSwitchCheckDefault"> <span id="status">OFF</span></label>
+        </div>
+        <label for="customRange1" class="form-label">posisi servo <span id="range">0</span> derajat</label>
+        <input type="range" class="form-range" id="customRange1" min="0" max="180" step="1" value="0" onchange="ubahrange(this.value)">
+
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8" crossorigin="anonymous"></script>
+
+  
+  </body>
 </html>
